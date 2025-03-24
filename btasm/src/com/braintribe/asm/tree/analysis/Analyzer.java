@@ -165,6 +165,8 @@ public class Analyzer<V extends Value> implements Opcodes {
         if (insnType == AbstractInsnNode.LABEL
             || insnType == AbstractInsnNode.LINE
             || insnType == AbstractInsnNode.FRAME) {
+          // Update the current frame, so it can be used during processing for this instruction
+          currentFrame.init(oldFrame);
           merge(insnIndex + 1, oldFrame, subroutine);
           newControlFlowEdge(insnIndex, insnIndex + 1);
         } else {
@@ -266,8 +268,8 @@ public class Analyzer<V extends Value> implements Opcodes {
               // Merge the frame *before* this instruction, with its stack cleared and an exception
               // pushed, with the handler's frame.
               Frame<V> handler = newFrame(oldFrame);
-              V exceptionValue = interpreter.newExceptionValue(tryCatchBlock, handler, catchType);
               handler.clearStack();
+              V exceptionValue = interpreter.newExceptionValue(tryCatchBlock, handler, catchType);
               handler.push(exceptionValue);
               merge(insnList.indexOf(tryCatchBlock.handler), handler, subroutine);
               // Merge the frame *after* this instruction, with its stack cleared and an exception

@@ -2,7 +2,7 @@
 `btasm` sources are based on ASM. The code can be created (and updated) by executing the following commands:
 
 	# specify ASM version
-	ASM_VERSION=9.7
+	ASM_VERSION=9.7.1
 
 	# specify artifact src dir (and use relative path to ensure that commands are executed from artifact group root)
 	BTASM_SRC_DIR=../com.braintribe.asm/btasm/src
